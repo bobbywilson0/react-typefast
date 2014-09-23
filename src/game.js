@@ -1,7 +1,9 @@
 /** @jsx React.DOM */
-// <div id="countdown"><Countdown totalSeconds="3" /></div>
+var React = require('react');
+var $ = jQuery = require('jquery');
+var Word = require('./word');
 
-var Game = React.createClass({
+module.exports = React.createClass({
   getInitialState: function() {
     return { quote: [], index: 0, userInput: '', startedAt: null };
   },
@@ -72,5 +74,3 @@ var Game = React.createClass({
     )
   }
 });
-
-React.renderComponent(<Game url="build/data.json" />, document.getElementById('app'));

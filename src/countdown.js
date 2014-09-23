@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
+var React = require('react');
 
-var Countdown = React.createClass({
+module.exports = React.createClass({
   getInitialState: function() {
     return { totalSeconds: this.props.totalSeconds };
   },
