@@ -1,25 +1,18 @@
 /** @jsx React.DOM */
 var React = require('react');
-var $ = jQuery = require('jquery');
 var Word = require('./word');
+var Firebase = require('client-firebase');
+var ReactFireMixin = require('reactfire');
 
 module.exports = React.createClass({
+  mixins: [ReactFireMixin],
+
   getInitialState: function() {
-    return { quote: [], index: 0, userInput: '', startedAt: null };
+    return { index: 0, userInput: '', startedAt: null };
   },
 
-  componentDidMount: function() {
-    $.ajax({
-      url: this.props.url,
-      dataType: 'json',
-      success: function(data) {
-        this.setState({ quote: data.quote.split(/\b/) });
-        this.refs.textInput.getDOMNode().focus();
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
+  componentWillMount: function() {
+    this.bindAsArray(new Firebase("https://typefast.firebaseio.com/quotes/"), "quotes");
   },
 
   handleChange: function(event) {
@@ -40,20 +33,28 @@ module.exports = React.createClass({
   },
 
   wpm: function() {
-    return this.state.quote.length / (((new Date() - this.state.startedAt) / 1000) / 60);
+    return (this.quote().length / 5) / (((new Date() - this.state.startedAt) / 1000) / 60);
   },
 
   wordMatches: function(word) {
-    return word == this.state.quote[this.state.index];
+    return word == this.quote()[this.state.index];
   },
 
   raceComplete: function() {
-    return this.state.index == (this.state.quote.length - 1);
+    return this.state.index == (this.quote().length - 1);
   },
 
   highlightWord: function(index) {
     if (this.state.index === index) {
       return "highlight";
+    }
+  },
+
+  quote: function() {
+    if (this.state.quotes === undefined) {
+      return [];
+    } else {
+      return this.state.quotes[0].text.split(/\b/);
     }
   },
 
@@ -67,7 +68,7 @@ module.exports = React.createClass({
     return(
       <div>
         <div>
-          {self.state.quote.map(renderWord)}
+          {self.quote().map(renderWord)}
         </div>
         <input type="text" ref="textInput" value={self.state.userInput} onChange={self.handleChange} />
       </div>

@@ -19,8 +19,6 @@ function handleErrors() {
   this.emit('end'); // Keep gulp from hanging on this task
 }
 
-
-// Based on: http://blog.avisi.nl/2014/04/25/how-to-keep-a-fast-build-with-browserify-and-reactjs/
 function buildScript(file, watch) {
   var props = {entries: [scriptsDir + '/' + file]};
   var bundler = watch ? watchify(props) : browserify(props);

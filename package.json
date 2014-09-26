@@ -5,10 +5,9 @@
   "main": "gulpfile.js",
   "dependencies": {
     "react": "~0.11.0",
-    "node-jsx": "~0.11.0",
-    "jquery": "~2.1.1",
-    "firebase": "~1.0.23",
-    "reactfire": "~0.2.0"
+    "client-firebase": "~1.0.1",
+    "reactfire": "~0.2.0",
+    "react-router": "~0.7.0"
   },
   "devDependencies": {
     "envify": "~1.2.1",

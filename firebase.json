@@ -1,0 +1,9 @@
+{
+  "firebase": "typefast",
+  "public": ".",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}
